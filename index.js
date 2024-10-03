@@ -13,8 +13,9 @@ const bot = new TelegramBot(token, { polling: true });
 const app = express();
 const upload = multer({ dest: "uploads/" });
 
+
 app.use(cors({
-  origin: process.env.WEB_APP_URL,
+  origin: "*",
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -500,3 +501,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
