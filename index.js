@@ -191,7 +191,7 @@ bot.on("callback_query", (callbackQuery) => {
           parse_mode: "HTML", // Enable HTML parsing
         }
       )
-      .then(() => {
+      // .then(() => {
         // Отправляем только GIF после отправки сообщения
         bot
           .sendAnimation(
@@ -201,10 +201,10 @@ bot.on("callback_query", (callbackQuery) => {
           .catch((error) => {
             console.error("Ошибка при отправке GIF:", error);
           });
-      })
-      .catch((error) => {
-        console.error("Ошибка при отправке сообщения:", error);
-      });
+      // })
+      // .catch((error) => {
+      //   console.error("Ошибка при отправке сообщения:", error);
+      // });
 
     // Устанавливаем флаг ожидания ввода ФИО
     awaitingPayerName[chatId] = orderId;
