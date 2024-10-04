@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const TelegramBot = require("node-telegram-bot-api");
 const express = require("express");
@@ -13,10 +13,11 @@ const bot = new TelegramBot(token, { polling: true });
 const app = express();
 const upload = multer({ dest: "uploads/" });
 
-
-app.use(cors({
-  origin: "*",
-}));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -166,45 +167,44 @@ bot.on("callback_query", (callbackQuery) => {
   if (callbackData.startsWith("pay_order") && order) {
     const { language } = order;
     // Отправляем инструкции для оплаты
-    bot
-      .sendMessage(
-        chatId,
-        `${
-          language === "am"
-            ? `🔶<b>Վճարման համար օգտագործեք հետևյալ տվյալները:</b>🔶 
+    bot.sendMessage(
+      chatId,
+      `${
+        language === "am"
+          ? `🔶<b>Վճարման համար օգտագործեք հետևյալ տվյալները:</b>🔶 
           \n\n<b>🏦 Փոխանցում քարտին</b> 
           \n<b>💳 Քարտ: <code>4847040001580344</code></b> 
           \n<b>👤 Ստացող: <code>Armen Barkhudaryan</code></b> 
           \n----------------------------------------------\n\n<b>🟠 Փոխանցում IDram-ով</b> 
           \n<b>💸 ID-հաշիվ: <code>4847040001580344</code></b> 
           \n<b>🪪 Ստացող: <code>Armen Barkhudaryan</code></b>\n\n\n<i>🔻Վճարումից հետո, խնդրում ենք այս չատում ուղարկել հաղորդագրություն, որը պարունակում է վճարողի <b>անունն ու ազգանունը</b>:</i>`
-            : `🔶<b>Для оплаты используйте следующие реквизиты:</b>🔶 
+          : `🔶<b>Для оплаты используйте следующие реквизиты:</b>🔶 
       \n\n<b>🏦 Перевод на карту</b>
       \n<b>💳 Карта:  <code>4847040001580344</code></b>
       \n<b>👤 Получатель:  <code>Armen Barkhudaryan</code></b>
       \n---------------------------------------------------\n\n<b>🟠 Перевод на IDram</b>
       \n<b>💸 ID-счет:  <code>4847040001580344</code></b>
       \n<b>🪪 Получатель: <code>Armen Barkhudaryan</code></b>\n\n\n<i>🔻После оплаты, пожалуйста, отправьте в этот чат сообщение, содержащее <b>имя и фамилию</b> плательщика.</i>`
-        }      
+      }      
       `,
-        {
-          parse_mode: "HTML", // Enable HTML parsing
-        }
-      )
-      // .then(() => {
-        // Отправляем только GIF после отправки сообщения
-        bot
-          .sendAnimation(
-            chatId,
-            "./gif_am_pay.gif" // Замените URL на ссылку на ваш GIF
-          )
-          .catch((error) => {
-            console.error("Ошибка при отправке GIF:", error);
-          });
-      // })
-      // .catch((error) => {
-      //   console.error("Ошибка при отправке сообщения:", error);
-      // });
+      {
+        parse_mode: "HTML", // Enable HTML parsing
+      }
+    );
+    // .then(() => {
+    // Отправляем только GIF после отправки сообщения
+    // bot
+    //   .sendAnimation(
+    //     chatId,
+    //     "./gif_am_pay.gif" // Замените URL на ссылку на ваш GIF
+    //   )
+    //   .catch((error) => {
+    //     console.error("Ошибка при отправке GIF:", error);
+    //   });
+    // })
+    // .catch((error) => {
+    //   console.error("Ошибка при отправке сообщения:", error);
+    // });
 
     // Устанавливаем флаг ожидания ввода ФИО
     awaitingPayerName[chatId] = orderId;
@@ -501,4 +501,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
