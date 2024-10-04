@@ -91,9 +91,8 @@ app.post("/send-photo", upload.single("photo"), (req, res) => {
   };
 
   bot
-    .sendMessage(
-      chatId,
-      `<b>${
+    .sendPhoto(chatId, photoPath, {
+      caption: `<b>${
         language === "am"
           ? "Շնորհակալություն պատվերի համար"
           : "Спасибо за заказ"
@@ -110,13 +109,8 @@ app.post("/send-photo", upload.single("photo"), (req, res) => {
       }</b> ${productType + "---" + orderId}\n<b>${
         language === "am" ? "Գին:" : "Цена:"
       }</b> ${price} AMD`,
-      { parse_mode: "HTML" }
-    )
-    .then(() =>
-      bot.sendPhoto(chatId, photoPath, {
-        caption: `${language === "am" ? "Ձեր լուսանկարը" : "Ваше фото"}`,
-      })
-    )
+      parse_mode: "HTML",
+    })
     .then(() => {
       return bot.sendMessage(
         chatId,
