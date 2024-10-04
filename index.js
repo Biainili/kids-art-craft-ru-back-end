@@ -147,7 +147,7 @@ app.post("/send-photo", upload.single("photo"), (req, res) => {
 });
 
 // ОПЛАТА START
-
+let forApplay = true;
 let awaitingPayerName = {};
 
 bot.on("callback_query", (callbackQuery) => {
@@ -158,7 +158,7 @@ bot.on("callback_query", (callbackQuery) => {
 
   user = username;
 
-  if (callbackData.startsWith("pay_order") && order) {
+  if (callbackData.startsWith("pay_order") && order && forApplay) {
     const { language } = order;
     // Отправляем инструкции для оплаты
     bot.sendMessage(
@@ -185,6 +185,7 @@ bot.on("callback_query", (callbackQuery) => {
         parse_mode: "HTML", // Enable HTML parsing
       }
     );
+    forApplay = false;
     // .then(() => {
     // Отправляем только GIF после отправки сообщения
     // bot
