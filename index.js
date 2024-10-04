@@ -31,14 +31,10 @@ let firstName;
 let lastName;
 let username;
 
-
-let forApplay;
-
 // Handle /start command
 bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
-  forApplay = true;
 
   firstName = msg.from.first_name || "";
   lastName = msg.from.last_name || "";
@@ -162,7 +158,7 @@ bot.on("callback_query", (callbackQuery) => {
 
   user = username;
 
-  if (callbackData.startsWith("pay_order") && order && forApplay) {
+  if (callbackData.startsWith("pay_order") && order) {
     const { language } = order;
     // Отправляем инструкции для оплаты
     bot.sendMessage(
@@ -189,7 +185,6 @@ bot.on("callback_query", (callbackQuery) => {
         parse_mode: "HTML", // Enable HTML parsing
       }
     );
-    forApplay = false;
     // .then(() => {
     // Отправляем только GIF после отправки сообщения
     // bot
