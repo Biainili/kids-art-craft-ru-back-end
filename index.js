@@ -31,10 +31,14 @@ let firstName;
 let lastName;
 let username;
 
+
+let forApplay;
+
 // Handle /start command
 bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
+  forApplay = true;
 
   firstName = msg.from.first_name || "";
   lastName = msg.from.last_name || "";
@@ -147,7 +151,7 @@ app.post("/send-photo", upload.single("photo"), (req, res) => {
 });
 
 // ОПЛАТА START
-let forApplay = true;
+
 let awaitingPayerName = {};
 
 bot.on("callback_query", (callbackQuery) => {
