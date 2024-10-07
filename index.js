@@ -208,17 +208,20 @@ let payerName;
 bot.on("message", (msg) => {
   const chatId = msg.chat.id;
 
-  // Проверяем, ждем ли мы ввода ФИО от этого пользователя
+  // Проверяем, ждем ли мы ввода ФИО или чека от этого пользователя
   if (awaitingPayerName[chatId]) {
     const orderId = awaitingPayerName[chatId];
     const order = orderData[orderId];
     const { language } = order;
 
-    // Проверяем, является ли сообщение фото
     if (msg.photo) {
+      // Пользователь отправил чек
       const photoId = msg.photo[msg.photo.length - 1].file_id;
 
-      // После получения фото отправляем кнопку подтверждения оплаты
+      // Сохраняем ID фото для дальнейшей проверки
+      orderData[orderId].paymentProofPhotoId = photoId;
+
+      // После получения чека отправляем кнопку подтверждения оплаты
       bot.sendMessage(
         chatId,
         `⬇️ ${
@@ -242,23 +245,53 @@ bot.on("message", (msg) => {
         }
       );
 
-      // Сохраняем фото ID для дальнейшей проверки
-      orderData[orderId].paymentProofPhotoId = photoId;
+      // Очищаем состояние ожидания после отправки кнопки
+      delete awaitingPayerName[chatId];
+    } else if (msg.text) {
+      // Пользователь отправил имя и фамилию
+      const payerName = msg.text.trim();
+      orderData[orderId].payerName = payerName;
+
+      // После получения имени и фамилии отправляем кнопку подтверждения оплаты
+      bot.sendMessage(
+        chatId,
+        `⬇️ ${
+          language === "am"
+            ? `Սեղմեք ներքևի կոճակը, եթե դուք կատարել եք վճարումը`
+            : `Нажмите кнопку ниже, если вы выполнили оплату`
+        }`,
+        {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: `✅${
+                    language === "am" ? `Ես վճարել եմ` : `Я оплатил`
+                  }`,
+                  callback_data: `confirm_payment_${orderId}`,
+                },
+              ],
+            ],
+          },
+        }
+      );
 
       // Очищаем состояние ожидания после отправки кнопки
       delete awaitingPayerName[chatId];
     } else {
+      // Пользователь отправил что-то некорректное
       bot.sendMessage(
         chatId,
         `${
           language === "am"
-            ? `Խնդրում ենք ուղարկել վճարման սկринշոտը:`
-            : `Пожалуйста, отправьте скриншот оплаты.`
+            ? `Խնդրում ենք ուղարկել վճարման սկրինշոտ կամ ձեր անունը և ազգանունը:`
+            : `Пожалуйста, отправьте скриншот оплаты или ваше имя и фамилию.`
         }`
       );
     }
   }
 });
+
 
 
 // Обработчик для callback_query, когда пользователь нажимает кнопку "Я оплатил"
