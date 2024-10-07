@@ -234,9 +234,7 @@ bot.on("message", (msg) => {
             inline_keyboard: [
               [
                 {
-                  text: `✅${
-                    language === "am" ? `Ես վճարել եմ` : `Я оплатил`
-                  }`,
+                  text: `✅${language === "am" ? `Ես վճարել եմ` : `Я оплатил`}`,
                   callback_data: `confirm_payment_${orderId}`,
                 },
               ],
@@ -265,9 +263,7 @@ bot.on("message", (msg) => {
             inline_keyboard: [
               [
                 {
-                  text: `✅${
-                    language === "am" ? `Ես վճարել եմ` : `Я оплатил`
-                  }`,
+                  text: `✅${language === "am" ? `Ես վճարել եմ` : `Я оплатил`}`,
                   callback_data: `confirm_payment_${orderId}`,
                 },
               ],
@@ -291,8 +287,6 @@ bot.on("message", (msg) => {
     }
   }
 });
-
-
 
 // Обработчик для callback_query, когда пользователь нажимает кнопку "Я оплатил"
 bot.on("callback_query", (callbackQuery) => {
@@ -338,9 +332,13 @@ bot.on("callback_query", (callbackQuery) => {
       .sendMessage(
         sellerChatId,
         `Проверьте поступление платежа 
-        \nот - <b> ${payerName} </b> 
-        \nна сумму - <b>${price} AMD.</b>\n\nПодтвердите или отклоните платеж. 
-        \n@${username}\n<code>${productType + "-" + orderId}</code>`,
+      ${
+        order.paymentProofPhotoId
+          ? "\n(Чек предоставлен ниже)"
+          : `\nот - <b>${order.payerName}</b>`
+      }
+      \nна сумму - <b>${price} AMD.</b>\n\nПодтвердите или отклоните платеж. 
+      \n@${username}\n<code>${productType + "-" + orderId}</code>`,
         {
           parse_mode: "HTML",
           reply_markup: {
@@ -351,6 +349,16 @@ bot.on("callback_query", (callbackQuery) => {
           },
         }
       )
+      .then(() => {
+        if (order.paymentProofPhotoId) {
+          // Отправляем чек, если он был предоставлен
+          bot
+            .sendPhoto(sellerChatId, order.paymentProofPhotoId)
+            .catch((error) => {
+              console.error("Ошибка при отправке чека:", error);
+            });
+        }
+      })
       .catch((error) => {
         console.error("Ошибка при отправке запроса подтверждения:", error);
       });
