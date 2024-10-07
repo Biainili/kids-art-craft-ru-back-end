@@ -469,7 +469,7 @@ bot.on("callback_query", (callbackQuery) => {
           : `✅ <b>Ваша оплата успешно подтверждена. Спасибо!</b> \n\n📌  Номер Заказа ։ <b>${
               productType + "-" + orderId
             }</b>\n\n⏳  Заказ будет готов до: <b>${readyDate}</b>\n\n\n <b><i>📣 Следите за нашим Telegram-каналом и оставляйте свои предложения и отзывы, а также новости в нашем Instagram.</i></b>`
-      } \n\n <a href="https://t.me/kidsartcraft_am">🔹 <b>TELEGRAM</b></a>\n\n <a href="https://t.me/kidsartcraft_am">🔹 <b>INSTAGRAM</b></a>`,
+      } \n\n <a href="https://t.me/kidsartcraft_am">🔹 <b>TELEGRAM</b></a>\n\n <a href="https://t.me/kidsartcraft_am">🔸 <b>INSTAGRAM</b></a>`,
       { parse_mode: "HTML" }
     );
   } else if (callbackData.startsWith("reject_") && order) {
