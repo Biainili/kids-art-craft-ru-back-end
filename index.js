@@ -329,17 +329,18 @@ bot.on("callback_query", (callbackQuery) => {
     const sellerChatId = "-1002372810662"; // ID чата продавца
 
     bot
-      .sendMessage(
+      .sendPhoto(
         sellerChatId,
-        `Проверьте поступление платежа 
-      ${
-        order.paymentProofPhotoId
-          ? "\n(Чек предоставлен ниже)"
-          : `\nот - <b>${order.payerName}</b>`
-      }
-      \nна сумму - <b>${price} AMD.</b>\n\nПодтвердите или отклоните платеж. 
-      \n@${username}\n<code>${productType + "-" + orderId}</code>`,
+        order.paymentProofPhotoId ? order.paymentProofPhotoId : null, // Отправляем чек, если он есть
         {
+          caption: `Проверьте поступление платежа 
+        ${
+          order.paymentProofPhotoId
+            ? "\n(Чек предоставлен выше)"
+            : `\nот - <b>${order.payerName}</b>`
+        }
+        \nна сумму - <b>${price} AMD.</b>\n\nПодтвердите или отклоните платеж. 
+        \n@${username}\n<code>${productType + "-" + orderId}</code>`,
           parse_mode: "HTML",
           reply_markup: {
             inline_keyboard: [
@@ -349,16 +350,6 @@ bot.on("callback_query", (callbackQuery) => {
           },
         }
       )
-      .then(() => {
-        if (order.paymentProofPhotoId) {
-          // Отправляем чек, если он был предоставлен
-          bot
-            .sendPhoto(sellerChatId, order.paymentProofPhotoId)
-            .catch((error) => {
-              console.error("Ошибка при отправке чека:", error);
-            });
-        }
-      })
       .catch((error) => {
         console.error("Ошибка при отправке запроса подтверждения:", error);
       });
@@ -478,7 +469,7 @@ bot.on("callback_query", (callbackQuery) => {
           : `✅ <b>Ваша оплата успешно подтверждена. Спасибо!</b> \n\n📌  Номер Заказа ։ <b>${
               productType + "-" + orderId
             }</b>\n\n⏳  Заказ будет готов до: <b>${readyDate}</b>\n\n\n <b><i>📣 Следите за нашим Telegram-каналом и оставляйте свои предложения и отзывы, а также новости в нашем Instagram.</i></b>`
-      } \n\n <a href="https://t.me/kidsartcraft_am"><b>TELEGRAM</b></a>\n <a href="https://t.me/kidsartcraft_am"><b>INSTAGRAM</b></a>`,
+      } \n\n <a href="https://t.me/kidsartcraft_am">🔹 <b>TELEGRAM</b></a>\n\n <a href="https://t.me/kidsartcraft_am">🔹 <b>INSTAGRAM</b></a>`,
       { parse_mode: "HTML" }
     );
   } else if (callbackData.startsWith("reject_") && order) {
