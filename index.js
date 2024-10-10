@@ -101,6 +101,7 @@ bot.on("message", async (msg) => {
     );
   }
 });
+//asdas
 
 app.post("/send-photo", upload.single("photo"), (req, res) => {
   const {
