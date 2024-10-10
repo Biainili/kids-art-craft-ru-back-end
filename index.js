@@ -7,7 +7,7 @@ const multer = require("multer");
 const fs = require("fs");
 const cors = require("cors");
 
-const token = process.env.BOT_TOKEN_START;
+const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 const app = express();
