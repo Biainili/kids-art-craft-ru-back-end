@@ -62,6 +62,15 @@ bot.on("message", async (msg) => {
       }
     );
   }
+
+  if (text === "/admin") {
+    bot.sendMessage(
+      chatId,
+      `<b>Կապվեք ադմինիստրատորի հետ</b> \n\n<a href="https://t.me/kidsartcraft_am">👤 <b>ADMIN</b></a>`,
+      { parse_mode: "HTML" }
+    );
+  }
+
 });
 
 app.post("/send-photo", upload.single("photo"), (req, res) => {
