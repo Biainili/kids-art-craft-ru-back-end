@@ -395,6 +395,26 @@ bot.on("callback_query", (callbackQuery) => {
       .catch((error) => {
         console.error("Ошибка при отправке запроса подтверждения:", error);
       });
+  } else {
+    // Если чек не предоставлен, отправляем только текст
+    bot
+      .sendMessage(
+        sellerChatId,
+        `Проверьте поступление платежа от - <b>${payerName}</b>\nна сумму - <b>${price} AMD.</b>\n\nПодтвердите или отклоните платеж. 
+        \n@${username}\n<code>${productType + "-" + orderId}</code>`,
+        {
+          parse_mode: "HTML",
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: "Подтвердить", callback_data: `approve_${orderId}` }],
+              [{ text: "Отклонить", callback_data: `reject_${orderId}` }],
+            ],
+          },
+        }
+      )
+      .catch((error) => {
+        console.error("Ошибка при отправке запроса подтверждения:", error);
+      });
   }
 
   if (callbackData.startsWith("approve_") && order) {
