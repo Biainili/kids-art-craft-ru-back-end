@@ -365,7 +365,7 @@ bot.on("callback_query", (callbackQuery) => {
   const order = orderData[orderId];
 
   if (callbackData.startsWith("confirm_payment_") && order) {
-    const { language, price, productType } = order;
+    const { language, price, productType, payerName } = order;
 
     // Запрос подтверждения у продавца
     const sellerChatId = "-1002372810662"; // ID чата продавца
@@ -389,7 +389,7 @@ bot.on("callback_query", (callbackQuery) => {
         .catch((error) => {
           console.error("Ошибка при отправке чека:", error);
         });
-    } else {
+    } else if (payerName) {
       // Если отправлено имя и фамилия, отправляем сообщение без фото
       bot
         .sendMessage(
