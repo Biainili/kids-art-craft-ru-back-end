@@ -389,7 +389,7 @@ bot.on("callback_query", (callbackQuery) => {
         .catch((error) => {
           console.error("Ошибка при отправке чека:", error);
         });
-    } else if (payerName) {
+    } else {
       // Если отправлено имя и фамилия, отправляем сообщение без фото
       bot
         .sendMessage(
