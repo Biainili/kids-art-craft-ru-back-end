@@ -370,19 +370,14 @@ bot.on("callback_query", (callbackQuery) => {
     // Запрос подтверждения у продавца
     const sellerChatId = "-1002372810662"; // ID чата продавца
 
-    bot
-      .sendPhoto(
-        sellerChatId,
-        order.paymentProofPhotoId ? order.paymentProofPhotoId : null, // Отправляем чек, если он есть
-        {
+    if (order.paymentProofPhotoId) {
+      // Если чек существует, отправляем фото
+      bot
+        .sendPhoto(sellerChatId, order.paymentProofPhotoId, {
           caption: `Проверьте поступление платежа 
-        ${
-          order.paymentProofPhotoId
-            ? "\n(Чек предоставлен выше)"
-            : `\nот - <b>${order.payerName}</b>`
-        }
-        \nна сумму - <b>${price} AMD.</b>\n\nПодтвердите или отклоните платеж. 
-        \n@${username}\n<code>${productType + "-" + orderId}</code>`,
+            \n(Чек предоставлен выше)
+            \nна сумму - <b>${price} AMD.</b>\n\nПодтвердите или отклоните платеж. 
+            \n@${username}\n<code>${productType + "-" + orderId}</code>`,
           parse_mode: "HTML",
           reply_markup: {
             inline_keyboard: [
@@ -390,31 +385,31 @@ bot.on("callback_query", (callbackQuery) => {
               [{ text: "Отклонить", callback_data: `reject_${orderId}` }],
             ],
           },
-        }
-      )
-      .catch((error) => {
-        console.error("Ошибка при отправке запроса подтверждения:", error);
-      });
-  } else {
-    // Если чек не предоставлен, отправляем только текст
-    bot
-      .sendMessage(
-        sellerChatId,
-        `Проверьте поступление платежа от - <b>${payerName}</b>\nна сумму - <b>${price} AMD.</b>\n\nПодтвердите или отклоните платеж. 
-        \n@${username}\n<code>${productType + "-" + orderId}</code>`,
-        {
-          parse_mode: "HTML",
-          reply_markup: {
-            inline_keyboard: [
-              [{ text: "Подтвердить", callback_data: `approve_${orderId}` }],
-              [{ text: "Отклонить", callback_data: `reject_${orderId}` }],
-            ],
-          },
-        }
-      )
-      .catch((error) => {
-        console.error("Ошибка при отправке запроса подтверждения:", error);
-      });
+        })
+        .catch((error) => {
+          console.error("Ошибка при отправке чека:", error);
+        });
+    } else if (payerName) {
+      // Если отправлено имя и фамилия, отправляем сообщение без фото
+      bot
+        .sendMessage(
+          sellerChatId,
+          `Проверьте поступление платежа от - <b>${payerName}</b>\nна сумму - <b>${price} AMD.</b>\n\nПодтвердите или отклоните платеж. 
+          \n@${username}\n<code>${productType + "-" + orderId}</code>`,
+          {
+            parse_mode: "HTML",
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: "Подтвердить", callback_data: `approve_${orderId}` }],
+                [{ text: "Отклонить", callback_data: `reject_${orderId}` }],
+              ],
+            },
+          }
+        )
+        .catch((error) => {
+          console.error("Ошибка при отправке сообщения:", error);
+        });
+    }
   }
 
   if (callbackData.startsWith("approve_") && order) {
