@@ -425,6 +425,10 @@ bot.on("callback_query", (callbackQuery) => {
 
     const chatIdPay = "-1002277423238";
 
+    // Получаем текущую дату и прибавляем 15 дней
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 15);
+
     // Форматируем дату, чтобы месяц был числом
     const day = currentDate.getDate();
     const month = currentDate.getMonth() + 1; // Добавляем 1, так как месяцы начинаются с 0
