@@ -425,6 +425,14 @@ bot.on("callback_query", (callbackQuery) => {
 
     const chatIdPay = "-1002277423238";
 
+    // Форматируем дату, чтобы месяц был числом
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1; // Добавляем 1, так как месяцы начинаются с 0
+    const year = currentDate.getFullYear();
+
+    // Готовая дата в формате "день.месяц.год"
+    const readyDate = `${day}.${month}.${year}`;
+
     // Отправка фото продавцу после нажатия кнопки "Подтвердить"
     bot
       .sendPhoto(chatIdPay, photoPath, {
@@ -436,7 +444,8 @@ bot.on("callback_query", (callbackQuery) => {
 Город - <b>${country}</b>
 Адрес - <b>${city}</b>
 Телефон - <b>${phoneNumber}</b>
-Размер заказа - <b>${size}</b>`,
+Размер заказа - <b>${size}</b>
+Время выдачи заказа - <b>${readyDate}</b>`,
         parse_mode: "HTML",
       })
       .then(() => {
