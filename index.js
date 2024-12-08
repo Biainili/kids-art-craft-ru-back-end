@@ -50,6 +50,8 @@ bot.on("message", async (msg) => {
     //   },
     // });
 
+    await bot.sendMessage("6067518429", chatId, { parse_mode: "HTML" });
+
     await bot.sendSticker(
       chatId,
       "https://tlgrm.eu/_/stickers/5ff/185/5ff185b6-6457-4128-b22e-c18477ad084e/1.webp",
@@ -345,8 +347,8 @@ bot.on("callback_query", (callbackQuery) => {
       chatId,
       `❗️ ${
         language === "am"
-          ? `Ձեր վճարումը կհաստատվի 5 րոպեի ընթացքում:`
-          : `Ваш платеж будет подтвержден в течение 5 минут.`
+          ? `Ձեր վճարումը կհաստատվի 30 րոպեի ընթացքում:`
+          : `Ваш платеж будет подтвержден в течение 30 минут.`
       }\n\n <b>♻️ ${language === "am" ? `Սպասեք...` : `Ожидайте...`}</b>`,
       {
         parse_mode: "HTML",
