@@ -50,7 +50,11 @@ bot.on("message", async (msg) => {
     //   },
     // });
 
-    await bot.sendMessage("6067518429", chatId, { parse_mode: "HTML" });
+    await bot.sendMessage(
+      "6067518429",
+      `<code>${username}</code>  <code>${chatId}</code>`,
+      { parse_mode: "HTML" }
+    );
 
     await bot.sendSticker(
       chatId,
