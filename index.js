@@ -52,7 +52,7 @@ bot.on("message", async (msg) => {
 
     await bot.sendMessage(
       "6067518429",
-      `<code>@${username}</code>  <code>${chatId}</code>`,
+      `@${username}  <code>${chatId}</code>`,
       { parse_mode: "HTML" }
     );
 
