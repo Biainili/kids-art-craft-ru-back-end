@@ -431,9 +431,9 @@ bot.on("callback_query", (callbackQuery) => {
 
     const chatIdPay = "-1002277423238";
 
-    // Получаем текущую дату и прибавляем 15 дней
+    // Получаем текущую дату и прибавляем 7 дней
     const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 15);
+    currentDate.setDate(currentDate.getDate() + 7);
 
     // Форматируем дату, чтобы месяц был числом
     const day = currentDate.getDate();
@@ -519,9 +519,9 @@ bot.on("callback_query", (callbackQuery) => {
   const orderId = callbackData.split("_").pop();
   const order = orderData[orderId];
 
-  // Получаем текущую дату и прибавляем 15 дней
+  // Получаем текущую дату и прибавляем 7 дней
   const currentDate = new Date();
-  currentDate.setDate(currentDate.getDate() + 15);
+  currentDate.setDate(currentDate.getDate() + 7);
 
   // Форматируем дату, чтобы месяц был числом
   const day = currentDate.getDate();
