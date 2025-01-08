@@ -13,13 +13,13 @@ const bot = new TelegramBot(token, { polling: true });
 const app = express();
 const upload = multer({ dest: "uploads/" });
 
-// app.use(
-//   cors({
-//     origin: "*",
-//   })
-// );
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
-app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
