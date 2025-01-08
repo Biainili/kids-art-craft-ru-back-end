@@ -19,7 +19,6 @@ app.use(
   })
 );
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -81,7 +80,7 @@ bot.on("message", async (msg) => {
   if (text === "/admin") {
     bot.sendMessage(
       chatId,
-      `<b>Կապվեք ադմինիստրատորի հետ</b> \n\n<a href="https://t.me/ardinini">👤 <b>ADMIN</b></a>`,
+      `<b>Связаться с администратором</b> \n\n<a href="https://t.me/ardinini">👤 <b>ADMIN</b></a>`,
       { parse_mode: "HTML" }
     );
   }
